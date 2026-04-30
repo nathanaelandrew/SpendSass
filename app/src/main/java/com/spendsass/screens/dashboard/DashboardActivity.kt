@@ -2,6 +2,7 @@ package com.spendsass.screens.dashboard
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.ContextThemeWrapper
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -15,13 +16,14 @@ import com.spendsass.screens.login.LoginActivity
 import com.spendsass.screens.profile.ProfileActivity
 import com.spendsass.data.models.DashboardModel
 
+
 class DashboardActivity : AppCompatActivity(), DashboardContract.View {
 
     private lateinit var presenter: DashboardContract.Presenter
 
     private lateinit var tvGreeting: TextView
     private lateinit var ivAvatar: ImageView
-    private lateinit var tvHamburger: TextView
+    private lateinit var ivHamburger: ImageView
 
     private lateinit var tvPiggyEmoji: TextView
     private lateinit var tvPiggyMessage: TextView
@@ -60,12 +62,10 @@ class DashboardActivity : AppCompatActivity(), DashboardContract.View {
         presenter.onDetach()
     }
 
-    // ─── View Binding ─────────────────────────────────────────────────────
-
     private fun bindViews() {
         tvGreeting         = findViewById(R.id.tv_greeting)
         ivAvatar           = findViewById(R.id.iv_avatar)
-        tvHamburger        = findViewById(R.id.tv_hamburger)
+        ivHamburger        = findViewById(R.id.iv_hamburger)
         tvPiggyEmoji       = findViewById(R.id.tv_piggy_emoji)
         tvPiggyMessage     = findViewById(R.id.tv_piggy_message)
         tvRemainingBalance = findViewById(R.id.tv_remaining_balance)
@@ -80,21 +80,24 @@ class DashboardActivity : AppCompatActivity(), DashboardContract.View {
     }
 
     private fun setupClickListeners() {
-        // Avatar tap → Profile screen
+        // Avatar → Profile
         ivAvatar.setOnClickListener {
             presenter.onProfileClicked()
         }
 
-        // Hamburger tap → popup menu with Settings + Log out
-        tvHamburger.setOnClickListener { anchor ->
-            val popup = PopupMenu(this, anchor)
-            popup.menu.add(0, 1, 0, "⚙️  Settings")
-            popup.menu.add(0, 2, 1, "🚪  Log out")
-
+        // Hamburger → dark-themed popup, Settings only
+        // ContextThemeWrapper applies our custom dark popup style
+        ivHamburger.setOnClickListener { anchor ->
+            val wrapper = ContextThemeWrapper(this, R.style.SpendSassPopupMenu)
+            val popup = PopupMenu(wrapper, anchor)
+            popup.menu.add(0, 1, 0, "Settings").apply {
+                // Use a built-in Android settings icon — tinted green in the style
+                setIcon(android.R.drawable.ic_menu_preferences)
+            }
+            popup.setForceShowIcon(true)
             popup.setOnMenuItemClickListener { item ->
                 when (item.itemId) {
                     1 -> { presenter.onProfileClicked(); true }
-                    2 -> { presenter.onLogoutClicked(); true }
                     else -> false
                 }
             }
@@ -109,7 +112,6 @@ class DashboardActivity : AppCompatActivity(), DashboardContract.View {
             )
         }
 
-        // Setup prompt button → Profile to enter budget
         findViewById<Button>(R.id.btn_setup_now).setOnClickListener {
             presenter.onProfileClicked()
         }

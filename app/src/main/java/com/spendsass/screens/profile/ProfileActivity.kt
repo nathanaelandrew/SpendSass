@@ -5,8 +5,10 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.spendsass.R
 import com.spendsass.screens.login.LoginActivity
@@ -17,6 +19,7 @@ class ProfileActivity : AppCompatActivity(), ProfileContract.View {
 
     private lateinit var presenter: ProfileContract.Presenter
 
+    private lateinit var ivAvatar: ImageView
     private lateinit var tvUserName: TextView
     private lateinit var etBudget: EditText
     private lateinit var etDailyLimit: EditText
@@ -46,6 +49,7 @@ class ProfileActivity : AppCompatActivity(), ProfileContract.View {
     }
 
     private fun bindViews() {
+        ivAvatar           = findViewById(R.id.iv_avatar)
         tvUserName         = findViewById(R.id.tv_user_name)
         etBudget           = findViewById(R.id.et_budget)
         etDailyLimit       = findViewById(R.id.et_daily_limit)
@@ -67,8 +71,18 @@ class ProfileActivity : AppCompatActivity(), ProfileContract.View {
                 savingsGoal = etSavingsGoal.text.toString()
             )
         }
-        tvLogout.setOnClickListener { presenter.onLogoutClicked() }
-        tvBack.setOnClickListener   { presenter.onBackClicked() }
+
+        // Confirm before logging out — prevents accidental taps
+        tvLogout.setOnClickListener {
+            AlertDialog.Builder(this)
+                .setTitle("Log out?")
+                .setMessage("The piggy will be waiting when you return.")
+                .setPositiveButton("Log out") { _, _ -> presenter.onLogoutClicked() }
+                .setNegativeButton("Cancel", null)
+                .show()
+        }
+
+        tvBack.setOnClickListener { presenter.onBackClicked() }
     }
 
     private fun clearErrors() {
@@ -81,8 +95,6 @@ class ProfileActivity : AppCompatActivity(), ProfileContract.View {
 
     override fun showCurrentSettings(name: String, budget: Float, dailyLimit: Float, savingsGoal: Float) {
         tvUserName.text = name
-
-        // Only pre-fill if values are set (don't show "0.0" in empty state)
         if (budget > 0f)      etBudget.setText(String.format("%.2f", budget))
         if (dailyLimit > 0f)  etDailyLimit.setText(String.format("%.2f", dailyLimit))
         if (savingsGoal > 0f) etSavingsGoal.setText(String.format("%.2f", savingsGoal))
@@ -118,6 +130,8 @@ class ProfileActivity : AppCompatActivity(), ProfileContract.View {
     }
 
     override fun navigateToLogin() {
+        // FLAG_ACTIVITY_CLEAR_TASK wipes the entire back stack
+        // so pressing Back from Login doesn't return to the app
         startActivity(Intent(this, LoginActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         })

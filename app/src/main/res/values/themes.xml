@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="Theme.SpendSass" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">#8AD167</item>
@@ -5,5 +6,12 @@
         <item name="colorAccent">#DFDE9F</item>
         <item name="android:windowBackground">#1C1C1A</item>
         <item name="android:statusBarColor">#1C1C1A</item>
+    </style>
+
+    <style name="SpendSassPopupMenu" parent="@style/Theme.AppCompat.Light">
+        <item name="android:popupBackground">#242422</item>
+        <item name="android:textColor">#EFEFEF</item>
+        <item name="android:tint">#8AD167</item>
+        <item name="android:popupElevation">8dp</item>
     </style>
 </resources>
