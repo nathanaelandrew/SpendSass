@@ -1,0 +1,9 @@
+<resources>
+    <style name="Theme.SpendSass" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">#8AD167</item>
+        <item name="colorPrimaryDark">#1C1C1A</item>
+        <item name="colorAccent">#DFDE9F</item>
+        <item name="android:windowBackground">#1C1C1A</item>
+        <item name="android:statusBarColor">#1C1C1A</item>
+    </style>
+</resources>

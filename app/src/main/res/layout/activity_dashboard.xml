@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#1C1C1A"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <!-- ── TOP BAR ─────────────────────────────────── -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="20dp">
+
+            <!-- Default profile avatar — tappable, goes to Profile -->
+            <ImageView
+                android:id="@+id/iv_avatar"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_default_avatar"
+                android:layout_marginEnd="10dp"
+                android:contentDescription="Profile"
+                android:clickable="true"
+                android:focusable="true"/>
+
+            <TextView
+                android:id="@+id/tv_greeting"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Hey, Friend 👋"
+                android:textColor="#EFEFEF"
+                android:textSize="18sp"
+                android:textStyle="bold"/>
+
+            <!-- Hamburger menu button -->
+            <TextView
+                android:id="@+id/tv_hamburger"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="☰"
+                android:textColor="#EFEFEF"
+                android:textSize="24sp"
+                android:padding="8dp"
+                android:clickable="true"
+                android:focusable="true"/>
+
+        </LinearLayout>
+
+        <!-- ── SETUP PROMPT (hidden when budget is set) ── -->
+        <LinearLayout
+            android:id="@+id/layout_setup_prompt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="32dp"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="🐷"
+                android:textSize="80sp"
+                android:layout_marginBottom="16dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="I need your budget first."
+                android:textColor="#8AD167"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginBottom="8dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="How can I judge your spending if I don't know your budget? Set it up in Profile."
+                android:textColor="#EFEFEF"
+                android:textSize="14sp"
+                android:gravity="center"
+                android:layout_marginBottom="28dp"/>
+
+            <Button
+                android:id="@+id/btn_setup_now"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:text="Set Up Budget"
+                android:textColor="#1C1C1A"
+                android:textStyle="bold"
+                android:backgroundTint="#8AD167"/>
+
+        </LinearLayout>
+
+        <!-- ── MAIN CONTENT (shown when budget is set) ── -->
+        <LinearLayout
+            android:id="@+id/layout_main_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="visible">
+
+            <!-- Piggy character block -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_marginBottom="20dp">
+
+                <TextView
+                    android:id="@+id/tv_piggy_emoji"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="🐷"
+                    android:textSize="80sp"
+                    android:layout_marginBottom="8dp"/>
+
+                <!-- Speech bubble -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_speech_bubble"
+                    android:padding="16dp">
+                    <TextView
+                        android:id="@+id/tv_piggy_message"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Budget looking healthy. Don't ruin it."
+                        android:textColor="#1C1C1A"
+                        android:textSize="14sp"
+                        android:textStyle="italic"
+                        android:gravity="center"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!-- Budget card -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/bg_dashboard_card"
+                android:padding="20dp"
+                android:layout_marginBottom="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="REMAINING BALANCE"
+                    android:textColor="#8AD167"
+                    android:textSize="11sp"
+                    android:letterSpacing="0.1"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="4dp"/>
+
+                <TextView
+                    android:id="@+id/tv_remaining_balance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="₱0.00"
+                    android:textColor="#8AD167"
+                    android:textSize="40sp"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="4dp"/>
+
+                <TextView
+                    android:id="@+id/tv_total_budget"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="of ₱0.00"
+                    android:textColor="#555555"
+                    android:textSize="14sp"
+                    android:layout_marginBottom="12dp"/>
+
+                <!-- Divider -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#2A2A28"
+                    android:layout_marginBottom="12dp"/>
+
+                <TextView
+                    android:id="@+id/tv_daily_limit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Daily limit: ₱0.00"
+                    android:textColor="#DFDE9F"
+                    android:textSize="13sp"/>
+
+            </LinearLayout>
+
+            <!-- Expense Logger -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/bg_dashboard_card"
+                android:padding="20dp"
+                android:layout_marginBottom="12dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="LOG AN EXPENSE"
+                    android:textColor="#8AD167"
+                    android:textSize="11sp"
+                    android:letterSpacing="0.1"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="12dp"/>
+
+                <!-- Amount row -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="4dp">
+
+                    <EditText
+                        android:id="@+id/et_amount"
+                        android:layout_width="0dp"
+                        android:layout_height="52dp"
+                        android:layout_weight="1"
+                        android:hint="₱ Amount"
+                        android:textColorHint="#555555"
+                        android:textColor="#EFEFEF"
+                        android:textSize="18sp"
+                        android:inputType="numberDecimal"
+                        android:background="@drawable/bg_input_field"
+                        android:paddingStart="14dp"
+                        android:paddingEnd="14dp"
+                        android:layout_marginEnd="8dp"/>
+
+                    <EditText
+                        android:id="@+id/et_category"
+                        android:layout_width="0dp"
+                        android:layout_height="52dp"
+                        android:layout_weight="1"
+                        android:hint="Category (optional)"
+                        android:textColorHint="#555555"
+                        android:textColor="#EFEFEF"
+                        android:textSize="14sp"
+                        android:inputType="text"
+                        android:background="@drawable/bg_input_field"
+                        android:paddingStart="14dp"
+                        android:paddingEnd="14dp"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_amount_error"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#FF6B6B"
+                    android:textSize="12sp"
+                    android:layout_marginBottom="8dp"
+                    android:visibility="gone"/>
+
+                <Button
+                    android:id="@+id/btn_log_expense"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:text="Log Expense 💸"
+                    android:textColor="#1C1C1A"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:backgroundTint="#8AD167"
+                    android:layout_marginTop="8dp"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>
