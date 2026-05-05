@@ -105,7 +105,6 @@ class DashboardActivity : AppCompatActivity(), DashboardContract.View {
     }
 
     override fun updateExpenseList(history: List<Expense>) {
-        // Using a simple built-in layout for the list rows
         val adapter = object : android.widget.ArrayAdapter<Expense>(
             this,
             android.R.layout.simple_list_item_2,
@@ -118,9 +117,15 @@ class DashboardActivity : AppCompatActivity(), DashboardContract.View {
                 val text2 = view.findViewById<android.widget.TextView>(android.R.id.text2)
 
                 val item = getItem(position)
+
                 text1.text = "- ₱${String.format("%.2f", item?.amount)}"
                 text1.setTextColor(android.graphics.Color.RED)
+
+                text1.textSize = 18f
                 text2.text = item?.category
+                text2.setTextColor(android.graphics.Color.parseColor("#EFEFEF")) // Light Gray
+                text2.textSize = 14f
+
                 return view
             }
         }
