@@ -73,38 +73,44 @@ class DashboardModel(private val prefs: SharedPreferences) {
 
     // piggy reaction
     fun getPiggyReaction(): PiggyReaction {
-        val total   = getTotalBudget()
-        val balance = getCurrentBalance()
+        val dailyLimit = getDailyLimit()
+        val spentToday = getTodaySpending()
 
-        // No budget set yet — neutral state
-        if (total <= 0f) {
-            return PiggyReaction("🐷", "Set up your budget in Profile so I can judge you properly.")
+        if (dailyLimit <= 0f) {
+            return PiggyReaction("🐷", "Set your daily limit so I can judge your life choices.")
         }
-
-        val ratio = balance / total
 
         return when {
-            balance < 0f -> PiggyReaction(
-                emoji   = "😤",
-                message = randomFrom(MESSAGES_BUSTED)
+            spentToday > dailyLimit -> PiggyReaction(
+                "😤",
+                "You've spent ₱${String.format("%.2f", spentToday)} today. Your limit was ₱${String.format("%.2f", dailyLimit)}. Math is hard, isn't it?"
             )
-            ratio <= THRESHOLD_CRITICAL -> PiggyReaction(
-                emoji   = "😱",
-                message = randomFrom(MESSAGES_CRITICAL)
+            spentToday > dailyLimit * 0.8f -> PiggyReaction(
+                "😬",
+                "You're at 80% of your daily limit. Put the wallet down and walk away."
             )
-            ratio <= THRESHOLD_WARNING -> PiggyReaction(
-                emoji   = "😬",
-                message = randomFrom(MESSAGES_WARNING)
-            )
-            ratio >= 0.80f -> PiggyReaction(
-                emoji   = "😄",
-                message = randomFrom(MESSAGES_GREAT)
+            spentToday > 0f -> PiggyReaction(
+                "🐷",
+                "₱${String.format("%.2f", spentToday)} spent today. I'm watching you."
             )
             else -> PiggyReaction(
-                emoji   = "🐷",
-                message = randomFrom(MESSAGES_HEALTHY)
+                "😇",
+                "Zero spent today? Who are you and what have you done with the owner of this phone?"
             )
         }
+    }
+
+    private fun getTodaySpending(): Float {
+        val history = getExpenseHistory()
+        val now = System.currentTimeMillis()
+
+        // Simple check: same day (24 hours).
+        // For a real app, use Calendar to get start of day,
+        // but this works for a quick demo:
+        val oneDayMillis = 24 * 60 * 60 * 1000
+
+        return history.filter { (now - it.timestamp) < oneDayMillis }
+            .sumOf { it.amount.toDouble() }.toFloat()
     }
 
     fun getExpenseReaction(amount: Float, newBalance: Float): PiggyReaction {
