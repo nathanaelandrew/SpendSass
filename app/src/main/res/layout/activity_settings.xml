@@ -1,0 +1,484 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#1C1C1A"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="48dp">
+
+        <!-- ── TOP BAR ──────────────────────────────────── -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="28dp">
+
+            <ImageView
+                android:id="@+id/iv_back"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:src="@drawable/ic_arrow_back"
+                android:padding="4dp"
+                android:tint="#8AD167"
+                android:clickable="true"
+                android:focusable="true"
+                android:contentDescription="Back"
+                android:layout_marginEnd="12dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Settings"
+                android:textColor="#EFEFEF"
+                android:textSize="20sp"
+                android:textStyle="bold"/>
+
+        </LinearLayout>
+
+        <!-- ── SECTION: NOTIFICATIONS ──────────────────── -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="NOTIFICATIONS"
+            android:textColor="#8AD167"
+            android:textSize="11sp"
+            android:letterSpacing="0.12"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/bg_dashboard_card"
+            android:layout_marginBottom="20dp">
+
+            <!-- Daily reminder row -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_bell"
+                    android:tint="#8AD167"
+                    android:layout_marginEnd="14dp"
+                    android:contentDescription="Bell"/>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Daily reminder"
+                        android:textColor="#EFEFEF"
+                        android:textSize="14sp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Remind me to log expenses"
+                        android:textColor="#555555"
+                        android:textSize="12sp"/>
+                </LinearLayout>
+
+                <Switch
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:thumbTint="#8AD167"
+                    android:trackTint="#2A4A1F"/>
+
+            </LinearLayout>
+
+            <!-- Divider -->
+            <View android:layout_width="match_parent" android:layout_height="1dp"
+                android:background="#2A2A28" android:layout_marginStart="50dp"/>
+
+            <!-- Weekly summary row -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_chart"
+                    android:tint="#8AD167"
+                    android:layout_marginEnd="14dp"
+                    android:contentDescription="Chart"/>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Weekly summary"
+                        android:textColor="#EFEFEF"
+                        android:textSize="14sp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Get a spending recap every Sunday"
+                        android:textColor="#555555"
+                        android:textSize="12sp"/>
+                </LinearLayout>
+
+                <Switch
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:thumbTint="#8AD167"
+                    android:trackTint="#2A4A1F"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- ── SECTION: DISPLAY ─────────────────────────── -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="DISPLAY"
+            android:textColor="#8AD167"
+            android:textSize="11sp"
+            android:letterSpacing="0.12"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/bg_dashboard_card"
+            android:layout_marginBottom="20dp">
+
+            <!-- Currency row -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_currency"
+                    android:tint="#8AD167"
+                    android:layout_marginEnd="14dp"
+                    android:contentDescription="Currency"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Currency symbol"
+                    android:textColor="#EFEFEF"
+                    android:textSize="14sp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="₱ PHP"
+                    android:textColor="#DFDE9F"
+                    android:textSize="13sp"
+                    android:layout_marginEnd="6dp"/>
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/ic_chevron_right"
+                    android:tint="#555555"
+                    android:contentDescription="Arrow"/>
+
+            </LinearLayout>
+
+            <View android:layout_width="match_parent" android:layout_height="1dp"
+                android:background="#2A2A28" android:layout_marginStart="50dp"/>
+
+            <!-- Date format row -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_calendar"
+                    android:tint="#8AD167"
+                    android:layout_marginEnd="14dp"
+                    android:contentDescription="Calendar"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Date format"
+                    android:textColor="#EFEFEF"
+                    android:textSize="14sp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="MM/DD/YYYY"
+                    android:textColor="#DFDE9F"
+                    android:textSize="13sp"
+                    android:layout_marginEnd="6dp"/>
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/ic_chevron_right"
+                    android:tint="#555555"
+                    android:contentDescription="Arrow"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- ── SECTION: DATA ────────────────────────────── -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="DATA"
+            android:textColor="#8AD167"
+            android:textSize="11sp"
+            android:letterSpacing="0.12"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/bg_dashboard_card"
+            android:layout_marginBottom="20dp">
+
+            <!-- Export data -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_export"
+                    android:tint="#8AD167"
+                    android:layout_marginEnd="14dp"
+                    android:contentDescription="Export"/>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Export data"
+                        android:textColor="#EFEFEF"
+                        android:textSize="14sp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Download as CSV"
+                        android:textColor="#555555"
+                        android:textSize="12sp"/>
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/ic_chevron_right"
+                    android:tint="#555555"
+                    android:contentDescription="Arrow"/>
+
+            </LinearLayout>
+
+            <View android:layout_width="match_parent" android:layout_height="1dp"
+                android:background="#2A2A28" android:layout_marginStart="50dp"/>
+
+            <!-- Clear history -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_trash"
+                    android:tint="#FF6B6B"
+                    android:layout_marginEnd="14dp"
+                    android:contentDescription="Trash"/>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Clear expense history"
+                        android:textColor="#FF6B6B"
+                        android:textSize="14sp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="This cannot be undone"
+                        android:textColor="#555555"
+                        android:textSize="12sp"/>
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/ic_chevron_right"
+                    android:tint="#555555"
+                    android:contentDescription="Arrow"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- ── SECTION: ABOUT ───────────────────────────── -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ABOUT"
+            android:textColor="#8AD167"
+            android:textSize="11sp"
+            android:letterSpacing="0.12"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/bg_dashboard_card"
+            android:layout_marginBottom="24dp">
+
+            <!-- Version -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_info"
+                    android:tint="#8AD167"
+                    android:layout_marginEnd="14dp"
+                    android:contentDescription="Info"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Version"
+                    android:textColor="#EFEFEF"
+                    android:textSize="14sp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1.0.0"
+                    android:textColor="#555555"
+                    android:textSize="13sp"/>
+
+            </LinearLayout>
+
+            <View android:layout_width="match_parent" android:layout_height="1dp"
+                android:background="#2A2A28" android:layout_marginStart="50dp"/>
+
+            <!-- Rate -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_star"
+                    android:tint="#DFDE9F"
+                    android:layout_marginEnd="14dp"
+                    android:contentDescription="Star"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Rate SpendSass"
+                    android:textColor="#EFEFEF"
+                    android:textSize="14sp"/>
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/ic_chevron_right"
+                    android:tint="#555555"
+                    android:contentDescription="Arrow"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- Piggy footer -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Made with 🐷 and sarcasm."
+            android:textColor="#333333"
+            android:textSize="12sp"
+            android:gravity="center"/>
+
+    </LinearLayout>
+</ScrollView>
