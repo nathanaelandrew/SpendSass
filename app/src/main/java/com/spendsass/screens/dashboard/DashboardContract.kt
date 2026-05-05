@@ -1,5 +1,7 @@
 package com.spendsass.screens.dashboard
 
+import com.spendsass.data.models.Expense
+
 interface DashboardContract {
 
     interface View {
@@ -12,6 +14,9 @@ interface DashboardContract {
         fun showSetupBudgetPrompt()          // Shown if user hasn't set budget yet
         fun navigateToProfile()
         fun navigateToLogin()
+        fun updateExpenseList(history: List<Expense>)
+        fun updateProgressBar(percentage: Int)
+        fun getProgressBarColor(percentage: Int): Int
     }
 
     interface Presenter {

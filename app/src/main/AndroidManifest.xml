@@ -18,6 +18,7 @@
         <activity android:name=".screens.register.RegisterActivity"/>
         <activity android:name=".screens.dashboard.DashboardActivity"/>
         <activity android:name=".screens.profile.ProfileActivity"/>
+        <activity android:name=".screens.settings.SettingsActivity"/>
     </application>
 
 </manifest>

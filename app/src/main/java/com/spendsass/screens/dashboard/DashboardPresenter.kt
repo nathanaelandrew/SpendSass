@@ -28,6 +28,20 @@ class DashboardPresenter(
         // Show ambient piggy reaction based on current balance
         val reaction = model.getPiggyReaction()
         view?.showPiggyReaction(reaction.emoji, reaction.message)
+
+        refreshUI()
+    }
+
+    private fun refreshUI() {
+        val total = model.getTotalBudget()
+        val balance = model.getCurrentBalance()
+
+        view?.showBudgetInfo(total, balance, model.getDailyLimit())
+        view?.updateProgressBar(model.getSpendingPercentage())
+        view?.updateExpenseList(model.getExpenseHistory())
+
+        val reaction = model.getPiggyReaction()
+        view?.showPiggyReaction(reaction.emoji, reaction.message)
     }
 
     // validates -> deducts -> shows reaction
@@ -48,6 +62,10 @@ class DashboardPresenter(
                     remaining   = result.newBalance,
                     dailyLimit  = model.getDailyLimit()
                 )
+
+                model.saveExpenseToHistory(result.amount, category)
+                view?.clearExpenseInput()
+                refreshUI()
             }
             is DashboardModel.ExpenseResult.Error -> {
                 view?.showExpenseError(result.message)

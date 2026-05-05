@@ -1,10 +1,15 @@
 package com.spendsass.data.models
 
 import android.content.SharedPreferences
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+
 
 class DashboardModel(private val prefs: SharedPreferences) {
+    private val gson = Gson()
 
     companion object {
+        private const val KEY_HISTORY = "expense_history"
         const val KEY_BUDGET        = "initial_budget"
         const val KEY_DAILY_LIMIT   = "daily_limit"
         const val KEY_BALANCE       = "current_balance"
@@ -39,6 +44,31 @@ class DashboardModel(private val prefs: SharedPreferences) {
         prefs.edit().putFloat(KEY_BALANCE, newBalance).apply()
 
         return ExpenseResult.Success(amount = amount, newBalance = newBalance)
+    }
+
+    // expense history
+    fun saveExpenseToHistory(amount: Float, category: String) {
+        val history = getExpenseHistory().toMutableList()
+
+        history.add(0, Expense(amount, if (category.isBlank()) "General" else category))
+
+        val trimmedHistory = if (history.size > 10) history.take(10) else history
+
+        val json = gson.toJson(trimmedHistory)
+        prefs.edit().putString(KEY_HISTORY, json).apply()
+    }
+
+    fun getExpenseHistory(): List<Expense> {
+        val json = prefs.getString(KEY_HISTORY, null) ?: return emptyList()
+        val type = object : TypeToken<List<Expense>>() {}.type
+        return gson.fromJson(json, type)
+    }
+
+    fun getSpendingPercentage(): Int {
+        val total = getTotalBudget()
+        if (total <= 0f) return 0
+        val spent = total - getCurrentBalance()
+        return ((spent / total) * 100).toInt().coerceIn(0, 100)
     }
 
     // piggy reaction

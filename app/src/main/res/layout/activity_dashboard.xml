@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#1C1C1A"
@@ -52,7 +53,7 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:contentDescription="Menu"
-                android:tint="#EFEFEF"/>
+                app:tint="#EFEFEF" />
 
         </LinearLayout>
 
@@ -277,6 +278,39 @@
                     android:backgroundTint="#8AD167"
                     android:layout_marginTop="8dp"/>
 
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/bg_dashboard_card"
+                android:padding="20dp"
+                android:layout_marginBottom="12dp">
+
+                <ProgressBar
+                    android:id="@+id/pb_budget_progress"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:max="100"
+                    android:progress="0" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Expenses"
+                    android:textStyle="bold"
+                    android:textColor="#8AD167"
+                    android:textSize="11sp"
+                    android:letterSpacing="0.1"
+                    android:layout_marginBottom="12dp"/>
+
+                <ListView
+                    android:id="@+id/lv_expense_history"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:nestedScrollingEnabled="true" />
             </LinearLayout>
 
         </LinearLayout>

@@ -8,10 +8,17 @@
         <item name="android:statusBarColor">#1C1C1A</item>
     </style>
 
-    <style name="SpendSassPopupMenu" parent="@style/Theme.AppCompat.Light">
-        <item name="android:popupBackground">#242422</item>
+    <style name="SpendSassDialog" parent="Theme.AppCompat.Dialog.Alert">
+        <item name="android:background">#242422</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:textColor">#EFEFEF</item>
-        <item name="android:tint">#8AD167</item>
-        <item name="android:popupElevation">8dp</item>
+        <item name="android:textColorPrimary">#EFEFEF</item>
+        <item name="android:listDivider">@android:color/transparent</item>
+        <item name="colorAccent">#8AD167</item>
+        <item name="buttonBarButtonStyle">@style/SpendSassDialogButton</item>
+    </style>
+
+    <style name="SpendSassDialogButton" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+        <item name="android:textColor">#8AD167</item>
     </style>
 </resources>

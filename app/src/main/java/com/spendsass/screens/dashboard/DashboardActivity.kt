@@ -2,24 +2,24 @@ package com.spendsass.screens.dashboard
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.ContextThemeWrapper
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.spendsass.R
 import com.spendsass.screens.login.LoginActivity
 import com.spendsass.screens.profile.ProfileActivity
+import com.spendsass.screens.settings.SettingsActivity
 import com.spendsass.data.models.DashboardModel
-
+import com.spendsass.data.models.Expense
 
 class DashboardActivity : AppCompatActivity(), DashboardContract.View {
 
     private lateinit var presenter: DashboardContract.Presenter
+    private lateinit var model: DashboardModel
 
     private lateinit var tvGreeting: TextView
     private lateinit var ivAvatar: ImageView
@@ -40,11 +40,14 @@ class DashboardActivity : AppCompatActivity(), DashboardContract.View {
     private lateinit var layoutSetupPrompt: LinearLayout
     private lateinit var layoutMainContent: LinearLayout
 
+    private lateinit var progressBar: android.widget.ProgressBar
+    private lateinit var lvHistory: android.widget.ListView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard)
 
-        val model = DashboardModel(getSharedPreferences("spendsass_prefs", MODE_PRIVATE))
+        model = DashboardModel(getSharedPreferences("spendsass_prefs", MODE_PRIVATE))
         presenter = DashboardPresenter(this, model)
 
         bindViews()
@@ -54,7 +57,15 @@ class DashboardActivity : AppCompatActivity(), DashboardContract.View {
 
     override fun onResume() {
         super.onResume()
-        presenter.onViewReady()
+        // Only refresh budget numbers — no navigation, no presenter calls
+        // This prevents any Activity loop that causes ANR
+        if (model.isBudgetSetUp()) {
+            showBudgetInfo(
+                totalBudget = model.getTotalBudget(),
+                remaining   = model.getCurrentBalance(),
+                dailyLimit  = model.getDailyLimit()
+            )
+        }
     }
 
     override fun onDestroy() {
@@ -77,31 +88,52 @@ class DashboardActivity : AppCompatActivity(), DashboardContract.View {
         btnLogExpense      = findViewById(R.id.btn_log_expense)
         layoutSetupPrompt  = findViewById(R.id.layout_setup_prompt)
         layoutMainContent  = findViewById(R.id.layout_main_content)
+        progressBar = findViewById(R.id.pb_budget_progress)
+        lvHistory = findViewById(R.id.lv_expense_history)
+    }
+
+    override fun updateProgressBar(percentage: Int) {
+        progressBar.progress = percentage
+
+        // Change color based on stress level
+        val color = when {
+            percentage < 50 -> getColor(R.color.green_primary)
+            percentage < 80 -> android.graphics.Color.YELLOW
+            else -> android.graphics.Color.RED
+        }
+        progressBar.progressTintList = android.content.res.ColorStateList.valueOf(color)
+    }
+
+    override fun updateExpenseList(history: List<Expense>) {
+        // Using a simple built-in layout for the list rows
+        val adapter = object : android.widget.ArrayAdapter<Expense>(
+            this,
+            android.R.layout.simple_list_item_2,
+            android.R.id.text1,
+            history
+        ) {
+            override fun getView(position: Int, convertView: android.view.View?, parent: android.view.ViewGroup): android.view.View {
+                val view = super.getView(position, convertView, parent)
+                val text1 = view.findViewById<android.widget.TextView>(android.R.id.text1)
+                val text2 = view.findViewById<android.widget.TextView>(android.R.id.text2)
+
+                val item = getItem(position)
+                text1.text = "- ₱${String.format("%.2f", item?.amount)}"
+                text1.setTextColor(android.graphics.Color.RED)
+                text2.text = item?.category
+                return view
+            }
+        }
+        lvHistory.adapter = adapter
     }
 
     private fun setupClickListeners() {
-        // Avatar → Profile
         ivAvatar.setOnClickListener {
             presenter.onProfileClicked()
         }
 
-        // Hamburger → dark-themed popup, Settings only
-        // ContextThemeWrapper applies our custom dark popup style
-        ivHamburger.setOnClickListener { anchor ->
-            val wrapper = ContextThemeWrapper(this, R.style.SpendSassPopupMenu)
-            val popup = PopupMenu(wrapper, anchor)
-            popup.menu.add(0, 1, 0, "Settings").apply {
-                // Use a built-in Android settings icon — tinted green in the style
-                setIcon(android.R.drawable.ic_menu_preferences)
-            }
-            popup.setForceShowIcon(true)
-            popup.setOnMenuItemClickListener { item ->
-                when (item.itemId) {
-                    1 -> { presenter.onProfileClicked(); true }
-                    else -> false
-                }
-            }
-            popup.show()
+        ivHamburger.setOnClickListener {
+            startActivity(Intent(this, SettingsActivity::class.java))
         }
 
         btnLogExpense.setOnClickListener {
@@ -178,4 +210,13 @@ class DashboardActivity : AppCompatActivity(), DashboardContract.View {
         })
         finish()
     }
+
+    override fun getProgressBarColor(percentage: Int): Int {
+        return when {
+            percentage < 50 -> getColor(R.color.green_primary)
+            percentage < 80 -> android.graphics.Color.YELLOW // or a custom color
+            else -> android.graphics.Color.RED
+        }
+    }
+
 }
