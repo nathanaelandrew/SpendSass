@@ -14,7 +14,7 @@ import com.spendsass.screens.login.LoginActivity
 import com.spendsass.screens.profile.ProfileActivity
 import com.spendsass.screens.settings.SettingsActivity
 import com.spendsass.data.models.DashboardModel
-import com.spendsass.data.models.Expense
+import com.spendsass.data.models.ExpenseModel
 
 class DashboardActivity : AppCompatActivity(), DashboardContract.View {
 
@@ -108,8 +108,8 @@ class DashboardActivity : AppCompatActivity(), DashboardContract.View {
         progressBar.progressTintList = android.content.res.ColorStateList.valueOf(color)
     }
 
-    override fun updateExpenseList(history: List<Expense>) {
-        val adapter = object : android.widget.ArrayAdapter<Expense>(
+    override fun updateExpenseList(history: List<ExpenseModel>) {
+        val adapter = object : android.widget.ArrayAdapter<ExpenseModel>(
             this,
             android.R.layout.simple_list_item_2,
             android.R.id.text1,
@@ -155,6 +155,10 @@ class DashboardActivity : AppCompatActivity(), DashboardContract.View {
 
         findViewById<Button>(R.id.btn_setup_now).setOnClickListener {
             presenter.onProfileClicked()
+        }
+
+        findViewById<TextView>(R.id.tv_view_all_history).setOnClickListener {
+            presenter.onViewAllClicked()
         }
     }
 
@@ -218,6 +222,11 @@ class DashboardActivity : AppCompatActivity(), DashboardContract.View {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         })
         finish()
+    }
+
+    override fun navigateToAnalytics() {
+        val intent = Intent(this, com.spendsass.screens.analytics.AnalyticsActivity::class.java)
+        startActivity(intent)
     }
 
     override fun getProgressBarColor(percentage: Int): Int {

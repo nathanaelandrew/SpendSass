@@ -1,6 +1,6 @@
 package com.spendsass.screens.dashboard
 
-import com.spendsass.data.models.Expense
+import com.spendsass.data.models.ExpenseModel
 
 interface DashboardContract {
 
@@ -14,7 +14,8 @@ interface DashboardContract {
         fun showSetupBudgetPrompt()          // Shown if user hasn't set budget yet
         fun navigateToProfile()
         fun navigateToLogin()
-        fun updateExpenseList(history: List<Expense>)
+        fun navigateToAnalytics()
+        fun updateExpenseList(history: List<ExpenseModel>)
         fun updateProgressBar(percentage: Int)
         fun getProgressBarColor(percentage: Int): Int
         fun showCategoryBreakdown(totals: Map<String, Float>, totalSpent: Float)
@@ -25,6 +26,7 @@ interface DashboardContract {
         fun onLogExpenseClicked(amountInput: String, category: String)
         fun onProfileClicked()
         fun onLogoutClicked()
+        fun onViewAllClicked()
         fun onDetach()
     }
 }

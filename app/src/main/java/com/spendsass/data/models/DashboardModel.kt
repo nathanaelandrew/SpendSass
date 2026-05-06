@@ -50,7 +50,7 @@ class DashboardModel(private val prefs: SharedPreferences) {
     fun saveExpenseToHistory(amount: Float, category: String) {
         val history = getExpenseHistory().toMutableList()
 
-        history.add(0, Expense(amount, if (category.isBlank()) "General" else category))
+        history.add(0, ExpenseModel(amount, if (category.isBlank()) "General" else category))
 
         val trimmedHistory = if (history.size > 10) history.take(10) else history
 
@@ -58,9 +58,9 @@ class DashboardModel(private val prefs: SharedPreferences) {
         prefs.edit().putString(KEY_HISTORY, json).apply()
     }
 
-    fun getExpenseHistory(): List<Expense> {
+    fun getExpenseHistory(): List<ExpenseModel> {
         val json = prefs.getString(KEY_HISTORY, null) ?: return emptyList()
-        val type = object : TypeToken<List<Expense>>() {}.type
+        val type = object : TypeToken<List<ExpenseModel>>() {}.type
         return gson.fromJson(json, type)
     }
 
@@ -216,7 +216,7 @@ class DashboardModel(private val prefs: SharedPreferences) {
             .toMap()
     }
 
-    fun getLatestExpenses(limit: Int = 3): List<Expense> {
+    fun getLatestExpenses(limit: Int = 3): List<ExpenseModel> {
         return getExpenseHistory().take(limit) // Only take the last 3
     }
 

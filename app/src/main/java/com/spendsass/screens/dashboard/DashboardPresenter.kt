@@ -92,6 +92,10 @@ class DashboardPresenter(
         view?.navigateToProfile()
     }
 
+    override fun onViewAllClicked() {
+        view?.navigateToAnalytics()
+    }
+
     override fun onLogoutClicked() {
         view?.navigateToLogin()
     }

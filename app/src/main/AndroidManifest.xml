@@ -19,6 +19,7 @@
         <activity android:name=".screens.dashboard.DashboardActivity"/>
         <activity android:name=".screens.profile.ProfileActivity"/>
         <activity android:name=".screens.settings.SettingsActivity"/>
+        <activity android:name=".screens.analytics.AnalyticsActivity"/>
     </application>
 
 </manifest>
