@@ -39,9 +39,12 @@ class DashboardActivity : AppCompatActivity(), DashboardContract.View {
 
     private lateinit var layoutSetupPrompt: LinearLayout
     private lateinit var layoutMainContent: LinearLayout
+    private lateinit var layoutCategoryChart: LinearLayout
 
     private lateinit var progressBar: android.widget.ProgressBar
     private lateinit var lvHistory: android.widget.ListView
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -90,6 +93,7 @@ class DashboardActivity : AppCompatActivity(), DashboardContract.View {
         layoutMainContent  = findViewById(R.id.layout_main_content)
         progressBar = findViewById(R.id.pb_budget_progress)
         lvHistory = findViewById(R.id.lv_expense_history)
+        layoutCategoryChart = findViewById(R.id.layout_category_chart)
     }
 
     override fun updateProgressBar(percentage: Int) {
@@ -224,4 +228,91 @@ class DashboardActivity : AppCompatActivity(), DashboardContract.View {
         }
     }
 
+    override fun showCategoryBreakdown(totals: Map<String, Float>, totalSpent: Float) {
+        layoutCategoryChart.removeAllViews()
+        if (totalSpent <= 0f) return
+
+        totals.forEach { (category, amount) ->
+            val percentage = (amount / totalSpent) * 100
+
+            // 1. Create a container for this category's row
+            val rowContainer = LinearLayout(this).apply {
+                orientation = LinearLayout.VERTICAL
+                layoutParams = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+                ).apply { setMargins(0, 0, 0, 40) } // Space between bars
+            }
+
+            // 2. Create the labels (Name on left, Amount on right)
+            val labelLayout = LinearLayout(this).apply {
+                orientation = LinearLayout.HORIZONTAL
+                layoutParams = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+                )
+            }
+
+            val tvCategory = TextView(this).apply {
+                text = "$category (${percentage.toInt()}%)"
+                setTextColor(android.graphics.Color.WHITE)
+                textSize = 14f
+                layoutParams = LinearLayout.LayoutParams(0, -2, 1f)
+            }
+
+            val tvAmount = TextView(this).apply {
+                text = "₱${String.format("%.2f", amount)}"
+                setTextColor(android.graphics.Color.GRAY)
+                textSize = 13f
+            }
+
+            labelLayout.addView(tvCategory)
+            labelLayout.addView(tvAmount)
+
+            // 3. THE GRAPH BAR (The actual visual part)
+            // This is the background "track" (dark gray)
+            val barTrack = android.widget.FrameLayout(this).apply {
+                layoutParams =
+                    LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 20).apply {
+                        topMargin = 12
+                    }
+                val bg = android.graphics.drawable.GradientDrawable().apply {
+                    setColor(android.graphics.Color.parseColor("#333333"))
+                    cornerRadius = 10f
+                }
+                background = bg
+            }
+
+            // This is the "Progress" bar (The colored part)
+            val barProgress = View(this).apply {
+                layoutParams = android.widget.FrameLayout.LayoutParams(0, -1) // Width starts at 0
+
+                // Color logic: Red if it's over half your spending, Green if low
+                val barColor = when {
+                    percentage > 50 -> android.graphics.Color.RED
+                    percentage > 20 -> android.graphics.Color.YELLOW
+                    else -> getColor(R.color.green_primary)
+                }
+
+                background = android.graphics.drawable.GradientDrawable().apply {
+                    setColor(barColor)
+                    cornerRadius = 10f
+                }
+            }
+
+            barTrack.addView(barProgress)
+            rowContainer.addView(labelLayout)
+            rowContainer.addView(barTrack)
+            layoutCategoryChart.addView(rowContainer)
+
+            // 4. Set the width of the bar based on percentage
+            // We use .post {} to wait for the screen to calculate its width first
+            barTrack.post {
+                val finalWidth = (barTrack.width * (percentage / 100)).toInt()
+                val params = barProgress.layoutParams
+                params.width = if (finalWidth < 20) 20 else finalWidth // Minimum visible width
+                barProgress.layoutParams = params
+            }
+        }
+    }
 }

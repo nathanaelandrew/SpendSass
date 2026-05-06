@@ -36,12 +36,27 @@ class DashboardPresenter(
         val total = model.getTotalBudget()
         val balance = model.getCurrentBalance()
 
+        // Get limited data for the Dashboard
+        val topCategories = model.getTopCategories(3)
+        val latestExpenses = model.getLatestExpenses(3)
+        val totalSpent = model.getCategoryTotals().values.sum()
+
         view?.showBudgetInfo(total, balance, model.getDailyLimit())
         view?.updateProgressBar(model.getSpendingPercentage())
-        view?.updateExpenseList(model.getExpenseHistory())
 
-        val reaction = model.getPiggyReaction()
-        view?.showPiggyReaction(reaction.emoji, reaction.message)
+        // Pass the limited data to the view
+        view?.updateExpenseList(latestExpenses)
+        view?.showCategoryBreakdown(topCategories, totalSpent)
+
+        // Sassy logic
+        val shameMessage = model.getShameComment(model.getCategoryTotals())
+        val regularReaction = model.getPiggyReaction()
+
+        if (shameMessage != null && totalSpent > 0) {
+            view?.showPiggyReaction(regularReaction.emoji, shameMessage)
+        } else {
+            view?.showPiggyReaction(regularReaction.emoji, regularReaction.message)
+        }
     }
 
     // validates -> deducts -> shows reaction

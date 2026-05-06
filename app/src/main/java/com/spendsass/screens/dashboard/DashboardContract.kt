@@ -17,6 +17,7 @@ interface DashboardContract {
         fun updateExpenseList(history: List<Expense>)
         fun updateProgressBar(percentage: Int)
         fun getProgressBarColor(percentage: Int): Int
+        fun showCategoryBreakdown(totals: Map<String, Float>, totalSpent: Float)
     }
 
     interface Presenter {

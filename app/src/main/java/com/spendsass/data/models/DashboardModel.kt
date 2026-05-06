@@ -180,6 +180,46 @@ class DashboardModel(private val prefs: SharedPreferences) {
         "Got it. Budget still breathing."
     )
 
+    // category
+    fun getCategoryTotals(): Map<String, Float> {
+        val history = getExpenseHistory()
+        // Groups by category and sums the amounts
+        return history.groupBy { it.category }
+            .mapValues { entry -> entry.value.sumOf { it.amount.toDouble() }.toFloat() }
+            .toList()
+            .sortedByDescending { it.second } // Biggest spenders at the top
+            .toMap()
+    }
+
+    fun getShameComment(categoryTotals: Map<String, Float>): String? {
+        if (categoryTotals.isEmpty()) return null
+
+        val totalSpent = categoryTotals.values.sum()
+        val topCategory = categoryTotals.entries.first() // Already sorted by biggest
+        val percentage = (topCategory.value / totalSpent) * 100
+
+        return when {
+            percentage > 60 && topCategory.key.lowercase().contains("food") ->
+                "You spent ${percentage.toInt()}% of your money on food. Are you a human or a biological vacuum cleaner?"
+            percentage > 60 ->
+                "Is '${topCategory.key}' a hobby or a cult? Because it owns ${percentage.toInt()}% of your wallet now."
+            categoryTotals.size > 5 ->
+                "You're spending money in ${categoryTotals.size} different directions. Pick a struggle."
+            else -> "I see your patterns. I'm not impressed, but I see them."
+        }
+    }
+
+    fun getTopCategories(limit: Int = 3): Map<String, Float> {
+        return getCategoryTotals().toList()
+            .sortedByDescending { it.second }
+            .take(limit) // Only take the top 3
+            .toMap()
+    }
+
+    fun getLatestExpenses(limit: Int = 3): List<Expense> {
+        return getExpenseHistory().take(limit) // Only take the last 3
+    }
+
     private fun randomFrom(list: List<String>): String = list.random()
 
     // result
