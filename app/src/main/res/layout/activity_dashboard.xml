@@ -175,15 +175,6 @@
                     android:textStyle="bold"
                     android:layout_marginBottom="4dp"/>
 
-                <TextView
-                    android:id="@+id/tv_total_budget"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="of ₱0.00"
-                    android:textColor="#555555"
-                    android:textSize="14sp"
-                    android:layout_marginBottom="12dp"/>
-
                 <!-- Divider -->
                 <View
                     android:layout_width="match_parent"
@@ -191,15 +182,40 @@
                     android:background="#2A2A28"
                     android:layout_marginBottom="12dp"/>
 
-                <TextView
-                    android:id="@+id/tv_daily_limit"
-                    android:layout_width="wrap_content"
+                <!-- Bottom row: daily limit on left, + Add Money on right -->
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Daily limit: ₱0.00"
-                    android:textColor="#DFDE9F"
-                    android:textSize="13sp"/>
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:id="@+id/tv_daily_limit"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Daily limit: ₱0.00"
+                        android:textColor="#DFDE9F"
+                        android:textSize="13sp"/>
+
+                    <Button
+                        android:id="@+id/btn_add_money"
+                        android:layout_width="wrap_content"
+                        android:layout_height="32dp"
+                        android:text="+ Add Money"
+                        android:textColor="#1C1C1A"
+                        android:textSize="11sp"
+                        android:textStyle="bold"
+                        android:backgroundTint="#8AD167"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp"/>
+
+                </LinearLayout>
 
             </LinearLayout>
+
 
             <!-- Expense Logger -->
             <LinearLayout

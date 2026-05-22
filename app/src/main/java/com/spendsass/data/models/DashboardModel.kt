@@ -46,6 +46,26 @@ class DashboardModel(private val prefs: SharedPreferences) {
         return ExpenseResult.Success(amount = amount, newBalance = newBalance)
     }
 
+    fun addMoney(amountInput: String): AddMoneyResult {
+        val amount = amountInput.trim().toFloatOrNull()
+            ?: return AddMoneyResult.Error("Please enter a valid amount.")
+
+        if (amount <= 0f) {
+            return AddMoneyResult.Error("Amount must be greater than zero.")
+        }
+
+        if (amount > 1_000_000f) {
+            return AddMoneyResult.Error("That's... a lot. Let's stay realistic.")
+        }
+
+        val currentBalance = getCurrentBalance()
+        val newBalance = currentBalance + amount
+
+        prefs.edit().putFloat(KEY_BALANCE, newBalance).apply()
+
+        return AddMoneyResult.Success(amount = amount, newBalance = newBalance)
+    }
+
     // expense history
     fun saveExpenseToHistory(amount: Float, category: String) {
         val history = getExpenseHistory().toMutableList()
@@ -229,4 +249,9 @@ class DashboardModel(private val prefs: SharedPreferences) {
     }
 
     data class PiggyReaction(val emoji: String, val message: String)
+
+    sealed class AddMoneyResult {
+        data class Success(val amount: Float, val newBalance: Float) : AddMoneyResult()
+        data class Error(val message: String) : AddMoneyResult()
+    }
 }

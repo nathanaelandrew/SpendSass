@@ -11,7 +11,7 @@ interface DashboardContract {
         fun showExpenseLogged(amount: Float, newBalance: Float)
         fun showExpenseError(message: String)
         fun clearExpenseInput()
-        fun showSetupBudgetPrompt()          // Shown if user hasn't set budget yet
+        fun showSetupBudgetPrompt()
         fun navigateToProfile()
         fun navigateToLogin()
         fun navigateToAnalytics()
@@ -19,14 +19,20 @@ interface DashboardContract {
         fun updateProgressBar(percentage: Int)
         fun getProgressBarColor(percentage: Int): Int
         fun showCategoryBreakdown(totals: Map<String, Float>, totalSpent: Float)
+        fun showAddMoneyDialog()
+        fun showMoneyAdded(newBalance: Float)
+        fun showAddMoneyError(message: String)
     }
 
     interface Presenter {
-        fun onViewReady()                    // Called in Activity onCreate
+        fun onViewReady()
         fun onLogExpenseClicked(amountInput: String, category: String)
         fun onProfileClicked()
         fun onLogoutClicked()
         fun onViewAllClicked()
+        fun onAddMoneyClicked()                    
+        fun onConfirmAddMoney(amountInput: String)
+
         fun onDetach()
     }
 }

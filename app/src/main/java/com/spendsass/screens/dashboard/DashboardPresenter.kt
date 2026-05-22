@@ -96,6 +96,32 @@ class DashboardPresenter(
         view?.navigateToAnalytics()
     }
 
+    override fun onAddMoneyClicked() {
+        view?.showAddMoneyDialog()
+    }
+
+    override fun onConfirmAddMoney(amountInput: String) {
+        when (val result = model.addMoney(amountInput)) {
+            is DashboardModel.AddMoneyResult.Success -> {
+                // Tell the View to close the dialog and flash the new balance
+                view?.showMoneyAdded(result.newBalance)
+
+                // Piggy reacts positively to getting money
+                view?.showPiggyReaction(
+                    "😄",
+                    "Oh look, more money. Let's see how long this lasts."
+                )
+
+                // Refresh all cards
+                refreshUI()
+            }
+            is DashboardModel.AddMoneyResult.Error -> {
+                // Keep dialog open, show the error inside it
+                view?.showAddMoneyError(result.message)
+            }
+        }
+    }
+
     override fun onLogoutClicked() {
         view?.navigateToLogin()
     }
